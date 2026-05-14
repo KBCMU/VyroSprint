@@ -19,7 +19,15 @@ const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
 });
 
+function metadataBase(): URL {
+  const raw =
+    process.env.VERCEL_PROJECT_PRODUCTION_URL ?? process.env.VERCEL_URL ?? "";
+  if (!raw) return new URL("http://localhost:3000");
+  return new URL(raw.startsWith("http") ? raw : `https://${raw}`);
+}
+
 export const metadata: Metadata = {
+  metadataBase: metadataBase(),
   title: "Lumina — Customer Feedback",
   description: "Internal dashboard for viewing and filtering customer feedback.",
 };
